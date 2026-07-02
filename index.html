@@ -539,7 +539,7 @@
   function getReplyData(input) {
     const hasRack = input.includes("本棚");
     const hasRedBookPage =
-      containsAny(input, ["赤い本5P", "赤い本の5P目", "赤い本の5Ｐ目", "赤い本の5ページ目"]) ||
+      containsAny(input, ["赤い本5P", "赤い本5Ｐ", "赤い本の5P目", "赤い本の5Ｐ目", "赤い本の5ページ目", "赤の本5P", "赤の本5Ｐ", "赤の本の5P目", "赤の本の5Ｐ目", "赤の本の5ページ目"]) ||
       (input.includes("赤い春の一家") && containsAny(input, ["見", "開"]));
     const hasTitleBelow = input.includes("タイトル下よめ");
     const hasKakushigoto = input.includes("かくしごと");
