@@ -430,13 +430,13 @@
   // 拡張子が .jpg 以外の場合は、src の末尾だけ実際のファイル名に変更してください。
   const attachments = {
     rack: {
-      filename: "File005_rack",
-      src: "File005_rack.jpg",
+      filename: "File005_rack.jpg",
+      src: "./File005_rack.jpg",
       alt: "N.Fから送られた本棚の写真"
     },
     book: {
-      filename: "File005_book",
-      src: "File005_book.jpg",
+      filename: "File005_book.jpg",
+      src: "./File005_book.jpg",
       alt: "N.Fから送られた赤い春の一家の5ページ目の写真"
     }
   };
@@ -484,7 +484,7 @@
   };
 
   // File005の元ポストURLに差し替えてください。
-  const originalPostUrl = "元ポストのURLをここに貼る";
+  const originalPostUrl = "https://x.com/r4lu3m8l/status/2072640175159578704?s=20";
 
   function containsAny(text, words) {
     return words.some(function(word) {
@@ -537,10 +537,22 @@
   }
 
   function getReplyData(input) {
+    const normalizedInput = input.normalize("NFKC").replace(/[\s　]/g, "").toLowerCase();
     const hasRack = input.includes("本棚");
     const hasRedBookPage =
-      containsAny(input, ["赤い本5P", "赤い本5Ｐ", "赤い本の5P目", "赤い本の5Ｐ目", "赤い本の5ページ目", "赤の本5P", "赤の本5Ｐ", "赤の本の5P目", "赤の本の5Ｐ目", "赤の本の5ページ目"]) ||
-      (input.includes("赤い春の一家") && containsAny(input, ["見", "開"]));
+      containsAny(normalizedInput, [
+        "赤い本5p",
+        "赤い本の5p目",
+        "赤い本の5ページ目",
+        "赤の本の5p",
+        "赤の本の5p目",
+        "赤の本の5ページ目",
+        "赤の本5p",
+        "赤の本5p目",
+        "赤の本5ページ目"
+      ]) ||
+      (normalizedInput.includes("赤い春の一家") &&
+        containsAny(normalizedInput, ["5p", "5ページ"]));
     const hasTitleBelow = input.includes("タイトル下よめ");
     const hasKakushigoto = input.includes("かくしごと");
     const hasKakuShigoto = input.includes("書く仕事");
@@ -801,12 +813,12 @@
 
     const image = document.createElement("img");
     image.className = "attachment-image";
-    image.src = attachmentData.src;
+    image.src = attachmentData.src + "?v=20260703";
     image.alt = attachmentData.alt;
 
     const missing = document.createElement("div");
     missing.className = "attachment-missing";
-    missing.textContent = "画像「" + attachmentData.filename + "」を index.html と同じ場所に置いてください。";
+    missing.textContent = "画像「" + attachmentData.filename + "」が読み込めません。index.html と同じ場所に置いてください。";
 
     image.addEventListener("error", function() {
       image.style.display = "none";
